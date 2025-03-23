@@ -1,0 +1,56 @@
+networks:
+  twitter_network:
+
+services:
+  db:
+    image: postgres:14.3
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    container_name: faketwittermicroservices
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - twitter_network
+
+  bff:
+    build: ./bff
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+    networks:
+      - twitter_network
+    ports:
+      - "3100:3100"
+
+  auth-ms:
+    build: ./auth-ms
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+    networks:
+      - twitter_network
+    ports:
+      - "3000:3000"
+
+  twitts-ms:
+    build: ./twitts-ms
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+    networks:
+      - twitter_network
+    ports:
+      - "3001:3001"
+
+volumes:
+  postgres_data:
