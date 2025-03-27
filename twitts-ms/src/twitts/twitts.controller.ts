@@ -45,10 +45,4 @@ export class TwittsController {
     return this.twittsService.remove(id);
   }
 
-  @Post('pa')
-  hello(@Body() object: any){
-    console.log('Recibí:', object);
-    return this.twittsService.hello(object)
-  }
-  
 }

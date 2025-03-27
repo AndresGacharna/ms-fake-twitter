@@ -1,30 +1,32 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+
 
 @Entity()
-export class Twitt {
-
+export class Commentaries {
     @ApiProperty({
         example: "550e8400-e29b-41d4-a716-446655440000",
-        description: "Identificador único del tweet",
+        description: "Identificador único del comentario",
         format: "uuid"
     })
     @PrimaryGeneratedColumn('uuid')
-    twitt_id: string;
+    comment_id: string;
+
 
     @ApiProperty({
-        example: "Este es mi primer tweet!",
-        description: "Contenido del tweet",
+        example: "Este es mi primer comentario!",
+        description: "Contenido del comentario",
         minLength: 1
     })
     @Column('text', {
         nullable: false
     })
     content: string;
+    
 
     @ApiProperty({
         example: "2024-02-21T15:30:00Z",
-        description: "Fecha y hora en que se creó el tweet",
+        description: "Fecha y hora en que se creó el comentario",
         type: String
     })
     @CreateDateColumn({ type: 'timestamp', precision: 0 }) // el timestamp es para tiempo más exacto diferente a date
@@ -32,7 +34,7 @@ export class Twitt {
 
     @ApiProperty({
         example: "2024-02-21T15:30:00Z",
-        description: "Fecha y hora en que se edita el tweet",
+        description: "Fecha y hora en que se edita el comentario",
         type: String
     })
     @Column({ type: 'timestamp', precision: 0, nullable: true, default: null })
@@ -41,7 +43,7 @@ export class Twitt {
 
     @ApiProperty({
         example: false,
-        description: "Indica si el tweet ha sido editado o no",
+        description: "Indica si el comentario ha sido editado o no",
         default: false
     })
     @Column('bool', {
@@ -49,10 +51,22 @@ export class Twitt {
     })
     isEdited: boolean;
 
+    @ApiProperty({
+        description: "id del twitt para poner",
+        minLength: 1,
+        required: false,
+    })
+    @Column('text')
+    idTwitt: string;
+
+
+    @ApiProperty({
+        description: "nombre del user",
+        minLength: 1,
+        required: true,
+    })
     @Column('uuid', {
         nullable: false
     })
     id: string;
-
 }
-

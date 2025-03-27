@@ -52,5 +52,17 @@ services:
     ports:
       - "3001:3001"
 
+  likescomments:
+    build: ./likescomments
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+    networks:
+      - twitter_network
+    ports:
+      - "3002:3002"
+
 volumes:
   postgres_data:

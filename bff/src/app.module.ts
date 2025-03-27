@@ -2,16 +2,16 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HttpModule } from '@nestjs/axios';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     HttpModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    PassportModule.register({defaultStrategy:'jwt'}),
+    ConfigModule.forRoot(),
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

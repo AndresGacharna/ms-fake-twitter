@@ -9,6 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 import { CreateUserDto, LoginUserDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { error } from 'console';
 
 
 @Injectable()
@@ -41,10 +42,9 @@ export class AuthService {
 
       return {
         ...user,
-        token: this.getJwtToken({id: user.id,fullName: user.fullName, roles: user.roles})
+        token: this.getJwtToken({id: user.id})
       };
 
-      //TODO: RETORNAR JWT
       
     } catch (error) {
       this.handleDBErrors(error)
@@ -66,10 +66,10 @@ export class AuthService {
 
     if(!bcrypt.compareSync(password, user.password))
       throw new UnauthorizedException('Credentials not valid')
-    
+    console.log(user)
     return {
       ...user,
-      token: this.getJwtToken({id: user.id, fullName: user.fullName, roles: user.roles })
+      token: this.getJwtToken({id: user.id})
     };
 
   }
@@ -79,8 +79,14 @@ export class AuthService {
 
   }
 
-  private getJwtToken(payload: JwtPayload){
+  async getOneById(id: string): Promise<User | null> {
+    if (!id) throw new BadRequestException(error);
+    return await this.userRepository.findOneBy({ id:id });
+  }
+  
 
+  private getJwtToken(payload: JwtPayload){
+    console.log("payload a firmar:", payload)
     const token = this.jwtService.sign(payload);
     return token;
   }

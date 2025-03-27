@@ -34,8 +34,7 @@ export class TwittsService {
     return await this.twittRepository
       .createQueryBuilder('twitt')
       .select([
-        'twitt', // Selecciona todos los campos de Twitt
-        'twitt.fullName'
+        'twitt' // Selecciona todos los campos de Twitt
       ])
       .take(limit)
       .skip(offset)
@@ -88,11 +87,4 @@ export class TwittsService {
 
   }
 
-  hello(object){
-    
-    if(object) return console.log('Recibí fase 2:', object);
-    
-    return console.log('Oppps algo salió mal')
-    
-  }
 }
