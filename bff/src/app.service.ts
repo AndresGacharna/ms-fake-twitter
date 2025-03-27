@@ -508,8 +508,7 @@ export class AppService {
             const tweet = tweets.find((t) => t.twitt_id === retweet.idTwitt);
 
             return {
-                idTwitt: retweet.idTwitt,
-                tweet: tweet, // Tweet completo
+                tweet, // Tweet completo
                 user
             };
         });

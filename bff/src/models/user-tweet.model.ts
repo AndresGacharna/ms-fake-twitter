@@ -52,13 +52,6 @@ export interface UserComments{
 }
 
 export interface UserRetweets{
-    
-    idTwitt: string;
+    // tweet:Tweet; //Acá no se agrega tweet porque lanza undefined
     user: User;
-}
-
-export interface RetweetTweet{
-    
-    idTwitt: string;
-    content: string;
 }
