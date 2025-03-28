@@ -186,6 +186,36 @@ export class AppController {
 
   // * ENDSRETWEET'S MS REGION
 
+  //*  FOLLOW MS REGION
+  @Auth()
+  @Post('createfollow/:id')
+  createfollow( //ID DEL QUE VOY A SEGUIR SE COLOCA EN LA URL
+    @GetUser() user:User,
+    @Param('id', ParseUUIDPipe) id:string) {
+    return this.appService.createfollow(id, user);
+  }
+  
+  @Auth()
+  @Get('countfollowers/:id')
+  countFollowers(@Param('id', ParseUUIDPipe) id: string) {
+    return this.appService.countFollowers(id);
+  }
+
+  
+  @Auth()
+  @Get('countfollowed/:id')
+  countFollowedPeople(@Param('id', ParseUUIDPipe) id: string) {
+    return this.appService.countFollowedPeople(id);
+  }
+
+  @Auth()
+  @Delete('removefollow/:id')
+  removeFollow(@Param('id', ParseUUIDPipe) id: string) {
+    return this.appService.removeFollow(id);
+  }
+
+
+  // * ENDS FOLLOW'S MS REGION
   
   //* EXAMPLE FOR POST METHODS
 

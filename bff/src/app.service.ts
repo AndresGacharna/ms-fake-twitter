@@ -41,7 +41,6 @@ export class AppService {
       );
     }
   }
-
   async login(loginUserDto: LoginUserDto){
     try {
       const response = await firstValueFrom(
@@ -66,7 +65,6 @@ export class AppService {
       );
     }
   }
-
   async editUser(user: User, updateUserDto: UpdateUserDto){
     var id = user.id
     try {
@@ -92,7 +90,6 @@ export class AppService {
       );
     }
   }
-
   async checkAuthStatus(user: User){
 
     return{
@@ -142,7 +139,6 @@ export class AppService {
       );
     }
   }
-
   async create(createTwittDto:CreateTwittDto, user:User){
     try {
       const myPost = {
@@ -171,7 +167,6 @@ export class AppService {
       );
     }
   }
-
   async updatetweets(id: string, updateTwittDto: UpdateTwittDto){
     
     try {
@@ -197,7 +192,6 @@ export class AppService {
       );
     }
   }
-
   async findOne(term){
     try {
       const response = await firstValueFrom(
@@ -222,7 +216,6 @@ export class AppService {
       );
     }
   }
-
   async removeTweet(id){
     try {
       
@@ -279,7 +272,6 @@ export class AppService {
       );
     }
   }
-
   async countTweetLikes(id: string){
     try {
       const response = await firstValueFrom(
@@ -304,7 +296,6 @@ export class AppService {
       );
     }
   }
-
   async removeLike (id: string){
     try {
       const response = await firstValueFrom(
@@ -395,7 +386,6 @@ export class AppService {
     }
 
   }
-
   async findPublicationComments(id){
     try {
       // Hacemos las peticiones con Axios y obtenemos los datos
@@ -435,7 +425,6 @@ export class AppService {
     }
 
   }
-  
   async removeComment(id){
     try {
       const response = await firstValueFrom(
@@ -494,7 +483,6 @@ export class AppService {
       );
     }
   }
-
   async countRetweets(id: string){
     try {
       const response = await firstValueFrom(
@@ -519,7 +507,6 @@ export class AppService {
       );
     }
   }
-
   async findUserRetweets(id) {
     try {
         // Hacemos las peticiones con Axios y obtenemos los datos
@@ -565,9 +552,6 @@ export class AppService {
         );
     }
 }
-
-
-
   async removeRetweets (id: string){
     try {
       const response = await firstValueFrom(
@@ -594,4 +578,111 @@ export class AppService {
   }
   
   //* ENDS RETWEET'S MS REGION
+
+    //* LIKES MS REGION
+    async createfollow(id, user){
+      try {
+        const myLike = {
+          idFollowed:id,
+          id: user.id
+        }
+        const response = await firstValueFrom(
+          this.httpService.post('http://likescomments:3002/api/follow', myLike)
+        );
+        return response.data;
+      } catch (error) {
+        console.error('Error creating User:', error?.response?.data || error.message);
+  
+        // Si el `auth-ms` responde con un error, lo propagamos con el código correcto
+        if (error.response) {
+          throw new HttpException(error.response.data, error.response.status);
+        }
+  
+        // Si no hay respuesta (problema de red o `auth-ms` caído), lanzar un error 500
+        throw new HttpException(
+          {
+            statusCode: 500,
+            message: 'Error al comunicarse con el servicio de autenticación',
+          },
+          500
+        );
+      }
+    }
+  
+    async countFollowedPeople(id: string){
+      try {
+        const response = await firstValueFrom(
+          this.httpService.get(`http://likescomments:3002/api/follow/countfollowers/${id}`)
+        );
+        return response.data;
+      } catch (error) {
+        console.error('Error creating User:', error?.response?.data || error.message);
+  
+        // Si el `auth-ms` responde con un error, lo propagamos con el código correcto
+        if (error.response) {
+          throw new HttpException(error.response.data, error.response.status);
+        }
+  
+        // Si no hay respuesta (problema de red o `auth-ms` caído), lanzar un error 500
+        throw new HttpException(
+          {
+            statusCode: 500,
+            message: 'Error al comunicarse con el servicio de autenticación',
+          },
+          500
+        );
+      }
+    }
+
+    async countFollowers(id: string){
+      try {
+        const response = await firstValueFrom(
+          this.httpService.get(`http://likescomments:3002/api/follow/countfollowed/${id}`)
+        );
+        return response.data;
+      } catch (error) {
+        console.error('Error creating User:', error?.response?.data || error.message);
+  
+        // Si el `auth-ms` responde con un error, lo propagamos con el código correcto
+        if (error.response) {
+          throw new HttpException(error.response.data, error.response.status);
+        }
+  
+        // Si no hay respuesta (problema de red o `auth-ms` caído), lanzar un error 500
+        throw new HttpException(
+          {
+            statusCode: 500,
+            message: 'Error al comunicarse con el servicio de autenticación',
+          },
+          500
+        );
+      }
+    }
+  
+    async removeFollow (id: string){
+      try {
+        const response = await firstValueFrom(
+          this.httpService.delete(`http://likescomments:3002/api/follow/${id}`)
+        );
+        return response.data;
+      } catch (error) {
+        console.error('Error creating User:', error?.response?.data || error.message);
+  
+        // Si el `auth-ms` responde con un error, lo propagamos con el código correcto
+        if (error.response) {
+          throw new HttpException(error.response.data, error.response.status);
+        }
+  
+        // Si no hay respuesta (problema de red o `auth-ms` caído), lanzar un error 500
+        throw new HttpException(
+          {
+            statusCode: 500,
+            message: 'Error al comunicarse con el servicio de autenticación',
+          },
+          500
+        );
+      }
+    }
+  
+    //* ENDS LIKES'S MS REGION
 }
