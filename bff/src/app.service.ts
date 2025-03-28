@@ -101,14 +101,18 @@ export class AppService {
 
 
   // * TWEETS MS REGION
-  async getAllTweets(): Promise<UserTweet[]> {
+  async getAllTweets(paginationDto): Promise<UserTweet[]> {
+
+    const { limit = 20, offset = 0 } = paginationDto;
+    console.log("limit",limit)
+    console.log("offset",offset)
     try {
       // Hacemos las peticiones con Axios y obtenemos los datos
       const usersResponse = await firstValueFrom(
         this.httpService.get<User[]>('http://auth-ms:3000/api/auth/users')
       );
       const tweetsResponse = await firstValueFrom(
-        this.httpService.get<Tweet[]>('http://twitts-ms:3001/api/twitts')
+        this.httpService.get<Tweet[]>(`http://twitts-ms:3001/api/twitts/?limit=${limit}&offset=${offset}`)
       );
 
       const users = usersResponse.data;

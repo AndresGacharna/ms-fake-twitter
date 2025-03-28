@@ -29,7 +29,7 @@ export class TwittsService {
   }
 
   async findAll(paginationDto: PaginationDto) {
-    const { limit = 10, offset = 0 } = paginationDto;
+    const { limit = 20, offset = 0 } = paginationDto;
   
     return await this.twittRepository
       .createQueryBuilder('twitt')

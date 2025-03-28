@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Req, SetMetadata, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query, Req, SetMetadata, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { User, UserComments, UserTweet } from './models/user-tweet.model';
 import { CreateTwittDto } from './dto/create-twitt.dto';
@@ -16,6 +16,7 @@ import { UpdateTwittDto } from './dto/update-twitt.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PaginationDto } from './common/dtos/pagination.dto';
 
 @Controller()
 export class AppController {
@@ -56,9 +57,10 @@ export class AppController {
 
   //* TWEETS MS REGION
   @Get()
-  async getAllTweets(@Req() req): Promise<UserTweet[]> {
-    console.log(req.user); // Aquí puedes ver los datos del usuario extraídos del token
-    return this.appService.getAllTweets();
+  async getAllTweets(
+    @Query() paginationDto: PaginationDto
+  ): Promise<UserTweet[]> {
+    return this.appService.getAllTweets(paginationDto);
   }
 
   @Post('createtweet')
