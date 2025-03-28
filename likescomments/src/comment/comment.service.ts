@@ -28,7 +28,7 @@ export class CommentsService {
   }
 
   async findAll(paginationDto:PaginationDto) {
-    const {limit=10, offset=0} = paginationDto;
+    const {limit=3, offset=0} = paginationDto;
 
     return this.commentRepository.find({
       take: limit,

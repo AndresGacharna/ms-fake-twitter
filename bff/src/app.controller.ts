@@ -143,10 +143,11 @@ export class AppController {
   @Auth()
   @Get('publication/:id')
   findPublicationComments( //OBTIENE LOS COMENTARIOS DE LA PUBLICACION QUE LE MANDEN ID
+    @Query() paginationDto: PaginationDto,
     @Param('id') id: string
   ): Promise<UserComments[]>
   {
-    return this.appService.findPublicationComments(id);
+    return this.appService.findPublicationComments(id,paginationDto);
   }
 
   @Auth()

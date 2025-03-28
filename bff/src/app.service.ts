@@ -120,8 +120,7 @@ export class AppService {
 
       // Mapeamos los tweets con su respectivo usuario
       const userTweets: UserTweet[] = tweets.map((tweet) => ({
-        content: tweet.content,
-        tweet_id: tweet.id,
+        tweet: tweet,
         user: users.find((u) => u.id === tweet.id)!,
       }));
 
@@ -391,21 +390,24 @@ export class AppService {
     }
 
   }
-  async findPublicationComments(id){
+  async findPublicationComments(id,paginationDto){
+    const { limit = 3, offset = 0 } = paginationDto;
+    console.log("limit",limit)
+    console.log("offset",offset)
     try {
       // Hacemos las peticiones con Axios y obtenemos los datos
       const usersResponse = await firstValueFrom(
         this.httpService.get<User[]>('http://auth-ms:3000/api/auth/users')
       );
       const commentsResponse = await firstValueFrom(
-        this.httpService.get<Commentaries[]>(`http://likescomments:3002/api/commentaries/publication/${id}`)
+        this.httpService.get<Commentaries[]>(`http://likescomments:3002/api/commentaries/publication/${id}/?limit=${limit}&offset=${offset}`)
       );
 
       const users = usersResponse.data;
       const comments = commentsResponse.data;
 
       const userComments: UserComments[] = comments.map((comment) => ({
-        content: comment.content,
+        comment: comment,
         user: users.find((u) => u.id === comment.id)!,
       }));
 

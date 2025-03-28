@@ -42,12 +42,12 @@ export interface Commentaries{
 }
 
 export interface UserTweet{
-    content: string;
+    tweet: Tweet,
     user: User;
 }
 
 export interface UserComments{
-    content: string;
+    comment: Commentaries;
     user: User;
 }
 
