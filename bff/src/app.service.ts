@@ -92,6 +92,14 @@ export class AppService {
       );
     }
   }
+
+  async checkAuthStatus(user: User){
+
+    return{
+      ...user
+    };
+  }
+  
   // * ENDS AUTH'S MS REGION
 
 

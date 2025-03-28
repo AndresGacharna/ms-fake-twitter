@@ -38,9 +38,18 @@ export class AppController {
   editUser(
     @GetUser() user: User,
     @Body() updateUserDto: UpdateUserDto,
-){
+  ){
   return this.appService.editUser(user, updateUserDto)
-}
+  }
+
+  @Get('checkstatus')
+  @Auth()
+  checkStatus(
+    @GetUser() user: User
+  ){
+    return this.appService.checkAuthStatus(user);
+  }
+
 
   // * ENDS AUTH'S MS REGION
 

@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentsModule } from './comment/comment.module';
 import { LikesModule } from './likes/likes.module';
 import { RetweetsModule } from './retweets/retweets.module';
+import { FollowModule } from './follow/follow.module';
 
 @Module({
   imports: [
@@ -25,6 +26,8 @@ import { RetweetsModule } from './retweets/retweets.module';
     LikesModule,
 
     RetweetsModule,
+
+    FollowModule,
   ],
   controllers: [],
   providers: [],
