@@ -6,6 +6,7 @@ import { CreateTwittDto } from './dto/create-twitt.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateTwittDto } from './dto/update-twitt.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class AppService {
@@ -45,6 +46,32 @@ export class AppService {
     try {
       const response = await firstValueFrom(
         this.httpService.post('http://auth-ms:3000/api/auth/login', loginUserDto)
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error creating User:', error?.response?.data || error.message);
+
+      // Si el `auth-ms` responde con un error, lo propagamos con el código correcto
+      if (error.response) {
+        throw new HttpException(error.response.data, error.response.status);
+      }
+
+      // Si no hay respuesta (problema de red o `auth-ms` caído), lanzar un error 500
+      throw new HttpException(
+        {
+          statusCode: 500,
+          message: 'Error al comunicarse con el servicio de autenticación',
+        },
+        500
+      );
+    }
+  }
+
+  async editUser(user: User, updateUserDto: UpdateUserDto){
+    var id = user.id
+    try {
+      const response = await firstValueFrom(
+        this.httpService.patch(`http://auth-ms:3000/api/auth/${id}`, updateUserDto)
       );
       return response.data;
     } catch (error) {

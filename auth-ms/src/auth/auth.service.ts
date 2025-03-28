@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -10,6 +10,7 @@ import { User } from './entities/user.entity';
 import { CreateUserDto, LoginUserDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { error } from 'console';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 
 @Injectable()
@@ -77,6 +78,21 @@ export class AuthService {
   async getAllUsers(): Promise<User[]>{
     return await this.userRepository.find();
 
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
+
+    const user = await this.userRepository.preload({
+      id: id,
+      ...updateUserDto
+    });
+
+    if(!user) throw new NotFoundException(`User with id ${id} not found`);
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      throw new InternalServerErrorException('dominó2')
+    }
   }
 
   async getOneById(id: string): Promise<User | null> {

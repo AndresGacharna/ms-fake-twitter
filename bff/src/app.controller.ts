@@ -15,6 +15,7 @@ import { ValidRoles } from './auth/interfaces';
 import { UpdateTwittDto } from './dto/update-twitt.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller()
 export class AppController {
@@ -31,6 +32,15 @@ export class AppController {
   loginUser(@Body() loginUserDto: LoginUserDto){
     return this.appService.login(loginUserDto);
   }
+
+  @Patch('edituser')
+  @Auth()
+  editUser(
+    @GetUser() user: User,
+    @Body() updateUserDto: UpdateUserDto,
+){
+  return this.appService.editUser(user, updateUserDto)
+}
 
   // * ENDS AUTH'S MS REGION
 
