@@ -121,6 +121,7 @@ export class AppService {
       // Mapeamos los tweets con su respectivo usuario
       const userTweets: UserTweet[] = tweets.map((tweet) => ({
         content: tweet.content,
+        tweet_id: tweet.id,
         user: users.find((u) => u.id === tweet.id)!,
       }));
 
